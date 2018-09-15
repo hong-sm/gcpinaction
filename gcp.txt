@@ -1,0 +1,622 @@
+PART 1 GETTING STARTED ..............................................1
+1 What is “cloud”? 3
+1.1 What is Google Cloud Platform? 4
+1.2 Why cloud? 4
+Why not cloud? 5
+1.3 What to expect from cloud services 6
+Computing 6 ■ Storage 7 ■ Analytics (aka, Big Data) 8
+Networking 8 ■ Pricing 9
+1.4 Building an application for the cloud 9
+What is a cloud application? 9 ■ Example: serving photos 10
+Example projects 12
+1.5 Getting started with Google Cloud Platform 13
+Signing up for GCP 13 ■ Exploring the console 14
+Understanding projects 15 ■ Installing the SDK 16
+Licensed to HYUNGIL KIM <trentkim@live.com>
+viii CONTENTS
+1.6 Interacting with GCP 18
+In the browser: the Cloud Console 18 ■ On the command line:
+gcloud 20 ■ In your own code: google-cloud-* 22
+2 Trying it out: deploying WordPress on Google Cloud 24
+2.1 System layout overview 25
+2.2 Digging into the database 26
+Turning on a Cloud SQL instance 27 ■ Securing your Cloud SQL
+instance 28 ■ Connecting to your Cloud SQL instance 30
+Configuring your Cloud SQL instance for WordPress 30
+2.3 Deploying the WordPress VM 31
+2.4 Configuring WordPress 33
+2.5 Reviewing the system 36
+2.6 Turning it off 37
+3 The cloud data center 38
+3.1 Data center locations 39
+3.2 Isolation levels and fault tolerance 42
+Zones 42 ■ Regions 42 ■ Designing for fault tolerance 43
+Automatic high availability 45
+3.3 Safety concerns 45
+Security 46 ■ Privacy 47 ■ Special cases 48
+3.4 Resource isolation and performance 48
+PART 2 STORAGE ..........................................................51
+4 Cloud SQL: managed relational storage 53
+4.1 What’s Cloud SQL? 54
+4.2 Interacting with Cloud SQL 54
+4.3 Configuring Cloud SQL for production 60
+Access control 60 ■ Connecting over SSL 61 ■ Maintenance
+windows 66 ■ Extra MySQL options 67
+4.4 Scaling up (and down) 68
+Computing power 69 ■ Storage 69
+4.5 Replication 71
+Replica-specific operations 75
+Licensed to HYUNGIL KIM <trentkim@live.com>
+CONTENTS ix
+4.6 Backup and restore 75
+Automated daily backups 76 ■ Manual data export to
+Cloud Storage 77
+4.7 Understanding pricing 81
+4.8 When should I use Cloud SQL? 83
+Structure 83 ■ Query complexity 84 ■ Durability 84
+Speed (latency) 84 ■ Throughput 84
+4.9 Cost 85
+Overall 85
+4.10 Weighing Cloud SQL against a VM running MySQL 87
+5 Cloud Datastore: document storage 89
+5.1 What’s Cloud Datastore? 90
+Design goals for Cloud Datastore 91 ■ Concepts 92
+Consistency and replication 96 ■ Consistency with
+data locality 99
+5.2 Interacting with Cloud Datastore 101
+5.3 Backup and restore 107
+5.4 Understanding pricing 110
+Storage costs 110 ■ Per-operation costs 110
+5.5 When should I use Cloud Datastore? 111
+Structure 111 ■ Query complexity 112 ■ Durability 112
+Speed (latency) 112 ■ Throughput 113 ■ Cost 113
+Overall 113 ■ Other document storage systems 115
+6 Cloud Spanner: large-scale SQL 117
+6.1 What is NewSQL? 118
+6.2 What is Spanner? 118
+6.3 Concepts 118
+Instances 119 ■ Nodes 120 ■ Databases 120 ■ Tables 120
+6.4 Interacting with Cloud Spanner 121
+Creating an instance and database 122 ■ Creating a table 125
+Adding data 127 ■ Querying data 127 ■ Altering database
+schema 131
+6.5 Advanced concepts 132
+Interleaved tables 133 ■ Primary keys 136 ■ Split points 137
+Choosing primary keys 138 ■ Secondary indexes 139
+Transactions 145
+Licensed to HYUNGIL KIM <trentkim@live.com>
+x CONTENTS
+6.6 Understanding pricing 152
+6.7 When should I use Cloud Spanner? 153
+Structure 154 ■ Query complexity 154 ■ Durability 154
+Speed (latency) 154 ■ Throughput 154 ■ Cost 155
+Overall 155
+7 Cloud Bigtable: large-scale structured data 158
+7.1 What is Bigtable? 159
+Design goals 159 ■ Design nongoals 161
+Design overview 162
+7.2 Concepts 162
+Data model concepts 163 ■ Infrastructure concepts 168
+7.3 Interacting with Cloud Bigtable 173
+Creating a Bigtable Instance 173 ■ Creating your schema 175
+Managing your data 177 ■ Importing and exporting data 181
+7.4 Understanding pricing 184
+7.5 When should I use Cloud Bigtable? 185
+Structure 185 ■ Query complexity 186 ■ Durability 186
+Speed (latency) 186 ■ Throughput 186 ■ Cost 187
+Overall 187
+7.6 What’s the difference between Bigtable and HBase? 190
+7.7 Case study: InstaSnap recommendations 191
+Querying needs 191 ■ Tables 192 ■ Users table 192
+Recommendations table 195 ■ Processing data 196
+7.8 Summary 198
+8 Cloud Storage: object storage 199
+8.1 Concepts 200
+Buckets and objects 200
+8.2 Storing data in Cloud Storage 201
+8.3 Choosing the right storage class 204
+Multiregional storage 204 ■ Regional storage 205
+Nearline storage 205 ■ Coldline storage 206
+8.4 Access control 207
+Limiting access with ACLs 207 ■ Signed URLs 213
+Logging access to your data 217
+8.5 Object versions 219
+Licensed to HYUNGIL KIM <trentkim@live.com>
+CONTENTS xi
+8.6 Object lifecycles 223
+8.7 Change notifications 225
+URL restrictions 227
+8.8 Common use cases 228
+Hosting user content 228 ■ Data archival 229
+8.9 Understanding pricing 230
+Amount of data stored 231 ■ Amount of data transferred 232
+Number of operations executed 233 ■ Nearline and Coldline
+pricing 234
+8.10 When should I use Cloud Storage? 236
+Structure 236 ■ Query complexity 236 ■ Durability 236
+Speed (latency) 237 ■ Throughput 237 ■ Overall 237
+To-do list 237 ■ E*Exchange 238 ■ InstaSnap 238
+PART 3 COMPUTING....................................................241
+9 Compute Engine: virtual machines 243
+9.1 Launching your first (or second) VM 244
+9.2 Block storage with Persistent Disks 245
+Disks as resources 246 ■ Attaching and detaching disks 247
+Using your disks 250 ■ Resizing disks 252 ■ Snapshots 253
+Images 258 ■ Performance 259 ■ Encryption 261
+9.3 Instance groups and dynamic resources 264
+Changing the size of an instance group 269 ■ Rolling
+updates 270 ■ Autoscaling 274
+9.4 Ephemeral computing with preemptible VMs 276
+Why use preemptible machines? 277 ■ Turning on preemptible
+VMs 278 ■ Handling terminations 278 ■ Preemption
+selection 279
+9.5 Load balancing 280
+Backend configuration 282 ■ Host and path rules 285
+Frontend configuration 286 ■ Reviewing the configuration 287
+9.6 Cloud CDN 289
+Enabling Cloud CDN 290 ■ Cache control 293
+9.7 Understanding pricing 294
+Computing capacity 294 ■ Sustained use discounts 295
+Preemptible prices 298 ■ Storage 298 ■ Network traffic 299
+Licensed to HYUNGIL KIM <trentkim@live.com>
+xii CONTENTS
+9.8 When should I use GCE? 301
+Flexibility 301 ■ Complexity 302 ■ Performance 302
+Cost 302 ■ Overall 302 ■ To-Do List 303
+E*Exchange 303 ■ InstaSnap 304
+10 Kubernetes Engine: managed Kubernetes clusters 306
+10.1 What are containers? 307
+Configuration 307 ■ Standardization 307 ■ Isolation 309
+10.2 What is Docker? 310
+10.3 What is Kubernetes? 310
+Clusters 312 ■ Nodes 312 ■ Pods 313 ■ Services 314
+10.4 What is Kubernetes Engine? 315
+10.5 Interacting with Kubernetes Engine 315
+Defining your application 315 ■ Running your container
+locally 317 ■ Deploying to your container registry 319
+Setting up your Kubernetes Engine cluster 320 ■ Deploying
+your application 321 ■ Replicating your application 323
+Using the Kubernetes UI 325
+10.6 Maintaining your cluster 327
+Upgrading the Kubernetes master node 327 ■ Upgrading
+cluster nodes 329 ■ Resizing your cluster 331
+10.7 Understanding pricing 332
+10.8 When should I use Kubernetes Engine? 332
+Flexibility 332 ■ Complexity 333 ■ Performance 333
+Cost 334 ■ Overall 334 ■ To-Do List 334
+E*Exchange 335 ■ InstaSnap 335
+11 App Engine: fully managed applications 337
+11.1 Concepts 338
+Applications 339 ■ Services 341 ■ Versions 342
+Instances 342
+11.2 Interacting with App Engine 343
+Building an application in App Engine Standard 344
+On App Engine Flex 353
+11.3 Scaling your application 361
+Scaling on App Engine Standard 362 ■ Scaling on App
+Engine Flex 367 ■ Choosing instance configurations 368
+Licensed to HYUNGIL KIM <trentkim@live.com>
+CONTENTS xiii
+11.4 Using App Engine Standard’s managed services 371
+Storing data with Cloud Datastore 371 ■ Caching ephemeral
+data 372 ■ Deferring tasks 374 ■ Splitting traffic 375
+11.5 Understanding pricing 379
+11.6 When should I use App Engine? 380
+Flexibility 380 ■ Complexity 381 ■ Performance 381
+Cost 381 ■ Overall 382 ■ To-Do List 382
+E*Exchange 382 ■ InstaSnap 383
+12 Cloud Functions: serverless applications 385
+12.1 What are microservices? 385
+12.2 What is Google Cloud Functions? 386
+Concepts 388
+12.3 Interacting with Cloud Functions 391
+Creating a function 391 ■ Deploying a function 392
+Triggering a function 394
+12.4 Advanced concepts 395
+Updating functions 395 ■ Deleting functions 396
+Using dependencies 396 ■ Calling other Cloud APIs 399
+Using a Google Source Repository 401
+12.5 Understanding pricing 403
+13 Cloud DNS: managed DNS hosting 406
+13.1 What is Cloud DNS? 407
+Example DNS entries 409
+13.2 Interacting with Cloud DNS 410
+Using the Cloud Console 410 ■ Using the Node.js client 414
+13.3 Understanding pricing 418
+Personal DNS hosting 418 ■ Startup business DNS hosting 418
+13.4 Case study: giving machines DNS names at boot 419
+PART 4 MACHINE LEARNING........................................425
+14 Cloud Vision: image recognition 427
+14.1 Annotating images 428
+Label annotations 429 ■ Faces 432 ■ Text recognition 435
+Logo recognition 437 ■ Safe-for-work detection 440
+Combining multiple detection types 441
+Licensed to HYUNGIL KIM <trentkim@live.com>
+xiv CONTENTS
+14.2 Understanding pricing 443
+14.3 Case study: enforcing valid profile photos 443
+15 Cloud Natural Language: text analysis 446
+15.1 How does the Natural Language API work? 447
+15.2 Sentiment analysis 448
+15.3 Entity recognition 452
+15.4 Syntax analysis 455
+15.5 Understanding pricing 457
+15.6 Case study: suggesting InstaSnap hash-tags 459
+16 Cloud Speech: audio-to-text conversion 463
+16.1 Simple speech recognition 465
+16.2 Continuous speech recognition 467
+16.3 Hinting with custom words and phrases 468
+16.4 Understanding pricing 469
+16.5 Case study: InstaSnap video captions 469
+17 Cloud Translation: multilanguage machine translation 473
+17.1 How does the Translation API work? 475
+17.2 Language detection 477
+17.3 Text translation 479
+17.4 Understanding pricing 481
+17.5 Case study: translating InstaSnap captions 481
+18 Cloud Machine Learning Engine: managed machine
+learning 485
+18.1 What is machine learning? 485
+What are neural networks? 486 ■ What is TensorFlow? 488
+18.2 What is Cloud Machine Learning Engine? 491
+Concepts 492 ■ Putting it all together 495
+18.3 Interacting with Cloud ML Engine 498
+Overview of US Census data 498 ■ Creating a model 499
+Setting up Cloud Storage 501 ■ Training your model 503
+Making predictions 506 ■ Configuring your underlying
+resources 509
+Licensed to HYUNGIL KIM <trentkim@live.com>
+CONTENTS xv
+18.4 Understanding pricing 514
+Training costs 514 ■ Prediction costs 516
+PART 5 DATA PROCESSING AND ANALYTICS...................519
+19 BigQuery: highly scalable data warehouse 521
+19.1 What is BigQuery? 521
+Why BigQuery? 522 ■ How does BigQuery work? 522
+Concepts 525
+19.2 Interacting with BigQuery 528
+Querying data 528 ■ Loading data 533
+Exporting datasets 542
+19.3 Understanding pricing 544
+Storage pricing 544 ■ Data manipulation pricing 545
+Query pricing 545
+20 Cloud Dataflow: large-scale data processing 547
+20.1 What is Apache Beam? 549
+Concepts 550 ■ Putting it all together 555
+20.2 What is Cloud Dataflow? 556
+20.3 Interacting with Cloud Dataflow 557
+Setting up 557 ■ Creating a pipeline 559 ■ Executing
+a pipeline locally 560 ■ Executing a pipeline using
+Cloud Dataflow 561
+20.4 Understanding pricing 565
+21 Cloud Pub/Sub: managed event publishing 568
+21.1 The headache of messaging 569
+21.2 What is Cloud Pub/Sub? 569
+21.3 Life of a message 569
+21.4 Concepts 572
+Topics 572 ■ Messages 572 ■ Subscriptions 574
+Sample configuration 575
+21.5 Trying it out 576
+Sending your first message 576 ■ Receiving your
+first message 578
+21.6 Push subscriptions 581
+Licensed to HYUNGIL KIM <trentkim@live.com>
+xvi CONTENTS
+21.7 Understanding pricing 583
+21.8 Messaging patterns 584
+Fan-out broadcast messaging 584 ■ Work-queue messaging 587
+index 589
+Licensed to HYUNGIL KIM <trentkim@live.com>
+xvii
+foreword
+In the early days of Google, we were a victim of our own success. People loved our
+search results, but handling more search traffic meant we needed more servers, which
+at that time meant physical servers, not virtual ones. Traffic was growing by something
+like 10% every week, so every few days we would hit a new record, and we had to
+ensure we had enough capacity to handle it all. We also had to do it all from scratch.
+When it comes to our infrastructural challenges, we’ve largely succeeded. We’ve
+built a system of data centers and networks that rival most of the world, but until
+recently, that infrastructure has been exclusively for us. Google Cloud Platform represents
+the natural extension of our infrastructural achievements over the past 15
+years or so by allowing everyone to benefit from the efficiency of Google’s data centers
+and the years of experience we have running them.
+All of this manifests as a collection of products and services that solve hard technical
+problems (think data consistency) so that you don’t have to, but it also means
+that instead of solving the hard technical problem, you have to learn how to use the
+service. And while tinkering with new services is part of daily life at Google, most of
+the world expects things to “just work” so they can get on with their business. For
+many, a misconfigured server or inconsistent database is not a fun puzzle to solve—
+it’s a distraction.
+Google Cloud Platform in Action acts as a guide to minimize those distractions, demonstrating
+how to use GCP in practice while also explaining how things work under the
+hood. In this book, JJ focuses on the most important aspects of GCP (like Compute
+Engine) but also highlights some of the more recent additions to GCP (like Kubernetes
+Licensed to HYUNGIL KIM <trentkim@live.com>
+xviii FOREWORD
+Engine and the various machine-learning APIs), offering a well-rounded collection of
+all that GCP has to offer.
+Looking back, Google Cloud Platform has grown immensely. From App Engine in
+2008, to Compute Engine in 2012, to several machine-learning APIs in 2017, keeping up
+can be difficult. But with this book in hand, you’re well equipped to build what’s next.
+URS HÖLZLE
+SVP, Technical Infrastructure
+Google
+Licensed to HYUNGIL KIM <trentkim@live.com>
+xix
+preface
+I was lucky enough to fall in love with building software all the way back in 1997. This
+started with toy projects in Visual Basic (yikes) or HTML (yes, the <blink> and marquee
+tags appeared from time to time), and eventually moved on to “real work” using
+“more mature languages” like C#, Java, and Python. Throughout that time the infrastructure
+hosting these projects followed a similar evolution, starting with free static
+hosting and moving on to the “grown-up” hosting options like virtual private servers
+or dedicated hosts in a colocation facility. This certainly got the job done, but scaling
+up and down was frustrating (you had to place an order and wait a little bit), and the
+minimum purchase was usually a full calendar year.
+But then things started to change. Somewhere around 2008, cloud computing
+became available using Amazon’s new Elastic Compute Cloud (EC2). Suddenly you
+had way more control over your infrastructure than ever before thanks to the ability to
+turn computers on and off using web-based APIs. To make things even better, you
+paid only for the time when the computer was actually running rather than for the
+entire year. It really was amazing.
+As we now know, the rest is history. Cloud computing expanded into generalized
+cloud infrastructure, moving higher and higher up the stack, to provide more and
+more value as time went on. More companies got involved, launching entire divisions
+devoted to cloud services, bringing with them even more new and exciting products
+to add to our toolbox. These products went far beyond leasing virtual servers by the
+hour, but the principle involved was always the same: take a software or infrastructure
+problem, remove the manual work, and then charge only for what’s used. It just so
+Licensed to HYUNGIL KIM <trentkim@live.com>
+xx PREFACE
+happens that Google was one of those companies, applying this principle to its in-house
+technology to build Google Cloud Platform.
+Fast-forward to today, and it seems we have a different problem: our toolboxes are
+overflowing. Cloud infrastructure is amazing, but only if you know how to use it effectively.
+You need to understand what’s in your toolbox, and, unfortunately, there aren’t
+a lot of guidebooks out there. If Google Cloud Platform is your toolbox, Google Cloud
+Platform in Action is here to help you understand all of your tools, from high-level concepts
+(like choosing the right storage system) to the low-level details (like understanding
+how much that storage will cost).
+Licensed to HYUNGIL KIM <trentkim@live.com>
+xxi
+acknowledgments
+As with any large project, this book is the result of contributions from many different
+people. First and foremost, I must thank Dave Nagle who convinced me to join the
+Google Cloud Platform team in the first place and encouraged me to go where
+needed—even if it was uncomfortable.
+Additionally, many people provided similar support, encouragement, and technical
+feedback, including Kristen Ranieri, Marc Jacobs, Stu Feldman, Ari Balogh, Max
+Ross, Urs Hölzle, Andrew Fikes, Larry Greenfield, Alfred Fuller, Hong Zhang, Ray
+Colline, JM Leon, Joerg Heilig, Walt Drummond, Peter Weinberger, Amnon Horowitz,
+Rich Sanzi, James Tamplin, Andrew Lee, Mike McDonald, Jony Dimond, Tom
+Larkworthy, Doron Meyer, Mike Dahlin, Sean Quinlan, Sanjay Ghemawatt, Eric Brewer,
+Dominic Preuss, Dan McGrath, Tommy Kershaw, Sheryn Chan, Luciano Cheng, Jeremy
+Sugerman, Steve Schirripa, Mike Schwartz, Jason Woodard, Grace Benz, Chen Goldberg,
+and Eyal Manor.
+Further, it should come as no surprise that a project of this size involved technical
+contributions from a diverse set of people at Google, including Tony Tseng, Brett
+Hesterberg, Patrick Costello, Chris Taylor, Tom Ayles, Vikas Kedia, Deepti Srivastava,
+Damian Reeves, Misha Brukman, Carter Page, Phaneendhar Vemuru, Greg Morris,
+Doug McErlean, Carlos O’Ryan, Andrew Hurst, Nathan Herring, Brandon Yarbrough,
+Travis Hobrla, Bob Day, Kir Titievsky, Oren Teich, Steren Gianni, Jim Caputo, Dan
+McClary, Bin Yu, Milo Martin, Gopal Ashok, Sam McVeety, Nikhil Kothari, Apoorv
+Saxena, Ram Ramanathan, Dan Aharon, Phil Bogle, Kirill Tropin, Sandeep Singhal,
+Dipti Sangani, Mona Attariyan, Jen Lin, Navneet Joneja, TJ Goltermann, Sam Greenfield,
+Licensed to HYUNGIL KIM <trentkim@live.com>
+xxii ACKNOWLEDGMENTS
+Dan O’Meara, Jason Polites, Rajeev Dayal, Mark Pellegrini, Rae Wang, Christian Kemper,
+Omar Ayoub, Jonathan Amsterdam, Jon Skeet, Stephen Sawchuk, Dave Gramlich,
+Mike Moore, Chris Smith, Marco Ziccardi, Dave Supplee, John Pedrie, Jonathan
+Amsterdam, Danny Hermes, Tres Seaver, Anthony Moore, Garrett Jones, Brian Watson,
+Rob Clevenger, Michael Rubin, and Brian Grant, along with many others. Many
+thanks go out to everyone who corrected errors and provided feedback, whether in
+person, on the MEAP forum, or via email.
+This project simply wouldn’t have been possible with the various teams at Manning
+who guided me through the process and helped shape this book into what it is now.
+I’m particularly grateful to Mike Stephens for convincing me to do this in the first
+place, Christina Taylor for her tireless efforts to shape the content into great teaching
+material, and Marjan Bace for pushing to tighten the content so that we didn’t end
+with a 1,000-page book.
+Finally, I’d like to thank Al Scherer and Romin Irini, for giving the manuscript a
+thorough technical review and proofread, and all the reviewers who provided feedback
+along the way, including Ajay Godbole, Alfred Thompson, Arun Kumar, Aurélien
+Marocco, Conor Redmond, Emanuele Origgi, Enric Cecilla, Grzegorz Bernas, Ian
+Stirk, Javier Collado Cabeza, John Hyaduck, John R. Donoghue, Joyce Echessa,
+Maksym Shcheglov, Mario-Leander Reimer, Max Hemingway, Michael Jensen, Michał
+Ambroziewicz, Peter J. Krey, Rambabu Posa, Renato Alves Felix, Richard J. Tobias,
+Sopan Shewale, Steve Atchue, Todd Ricker, Vincent Joseph, Wendell Beckwith, and
+Xinyu Wang.
+Licensed to HYUNGIL KIM <trentkim@live.com>
+xxiii
+about this book
+Google Cloud Platform in Action was written to provide a practical guide for using all of
+the various cloud products and APIs available from Google. It begins by explaining
+some of the fundamental concepts needed to understand how cloud works and proceeds
+from there to build on these concepts one product at a time, digging into the
+details of how different products work and providing realistic examples of how they
+can be used.
+Who should read this book
+Google Cloud Platform in Action is for anyone who builds software products or deals with
+hosting them. Familiarity with the cloud is not necessary, but familiarity with the basics
+in the software development toolbox (such as SQL databases, APIs, and commandline
+tools) is important. If you’ve heard of the cloud and want to know how best to use
+it, this book is probably for you.
+How this book is organized: a roadmap
+This book is broken into five sections, each covering a different aspect of Google
+Cloud Platform. Part 1 explains what Google Cloud Platform is and some of the fundamental
+pieces of the platform itself, with the goal of building a good foundation
+before digging into specific cloud products.
+ Chapter 1 gives an overview of the cloud and what Google Cloud Platform is. It also
+discusses the different things you might expect to get out of GCP and walks you
+through signing up, getting started, and interacting with Google Cloud Platform.
+Licensed to HYUNGIL KIM <trentkim@live.com>
+xxiv ABOUT THIS BOOK
+ Chapter 2 dives right into the details of getting a real GCP project running.
+This covers setting up a computing environment and database storage to turn
+on a WordPress instance using Google Cloud Platform’s free tier.
+ Chapter 3 explores some details about data centers and explains the core differences
+when moving into the cloud.
+Part 2 covers all of the storage-focused products available on Google Cloud Platform.
+Because so many different options for storing data exist, one goal of this section is to
+provide a framework for evaluating all of the options. To do this, each chapter looks at
+several different attributes for each of the storage options, summarized in Table 1.
+ Chapter 4 looks at how you can minimize the management overhead when running
+MySQL to store relational data.
+ Chapter 5 explores document-oriented storage, similar to systems like MongoDB,
+using Cloud Datastore.
+ Chapter 6 dives into the world of NewSQL for managing large-scale relational
+data using Cloud Spanner to provide strong consistency with global replication.
+ Chapter 7 discusses storing and querying large-scale key-value data using Cloud
+Bigtable, which was originally designed to handle Google’s search index.
+ Chapter 8 finishes up the section on storage by introducing Cloud Storage for
+keeping track of arbitrary chunks of bytes with high availability, high durability,
+and low latency content distribution.
+Part 3 looks at all the various ways to run your own code in the cloud using cloud computing
+resources. Similar to the storage section, many options exist, which can often
+lead to confusion. As a result, this section has a similar goal of setting up a framework
+for evaluating the various computing services. Each chapter looks at a few different
+aspects of each service, explained in table 2. As an extra, this section also contains a
+chapter on Cloud DNS, which is commonly used to give human-friendly names to all
+the computing resources that you’ll create in your projects.
+Table 1 Summary of storage system attributes
+Aspect Example question
+Structure How normalized and formatted is the data being stored?
+Query complexity How complicated are the questions you ask about the data?
+Speed How quickly do you need a response to any given request?
+Throughput How many queries need to be handled concurrently?
+Price How much will all of this cost?
+Licensed to HYUNGIL KIM <trentkim@live.com>
+ABOUT THIS BOOK xxv
+ Chapter 9 looks in depth at the fundamental way of running computing
+resources in the cloud using Compute Engine.
+ Chapter 10 moves one level up the stack of abstraction, exploring containers
+and how to run them in the cloud using Kubernetes and Kubernetes Engine.
+ Chapter 11 moves one level further still, exploring the hosted application environment
+of Google App Engine.
+ Chapter 12 dives into the world of service-oriented applications with Cloud
+Functions.
+ Chapter 13 looks at Cloud DNS, which can be used to write code to interact
+with the internet’s distributed naming system, giving friendly names to your
+VMs or other computing resources.
+Part 4 switches gears away from raw infrastructure and focuses exclusively on the rapidly
+evolving world of machine learning and artificial intelligence.
+ Chapter 14 focuses on how to bring artificial intelligence to the visual world
+using the Cloud Vision API.
+ Chapter 15 explains how the Cloud Natural Language API can be used to
+enrich written documents with annotations along with detecting the overall
+sentiment.
+ Chapter 16 explores turning audio streams into text using machine speech recognition.
+ Chapter 17 looks at translating text between multiple languages using neural
+machine translation for much greater accuracy than other methods.
+ Chapter 18, intended to be read along with other works on TensorFlow, generalizes
+the heavy lifting of machine learning using Google Cloud Platform infrastructure
+under the hood.
+Part 5 wraps up by looking at large-scale data processing and analytics, and how Google
+Cloud Platform’s infrastructure can be used to get more performance at a lower
+total cost.
+ Chapter 19 explores large-scale data analytics using Google’s BigQuery, showing
+how you can scan over terabytes of data in a matter of seconds.
+Table 2 Summary of computing system attributes
+Aspect Example question
+Flexibility How restricted am I when building using this computing platform?
+Complexity How complicated is it to fully understand the system?
+Performance How well does the system perform compared to dedicated hardware?
+Price How much will all of this cost?
+Licensed to HYUNGIL KIM <trentkim@live.com>
+xxvi ABOUT THIS BOOK
+ Chapter 20 dives into more advanced large-scale data processing using Apache
+Beam and Google Cloud Dataflow.
+ Chapter 21 explains how to handle large-scale distributed messaging with Google
+Cloud Pub/Sub.
+About the code
+This book contains many examples of source code, both in numbered listings and inline
+with normal text. In both cases, source code is formatted in a fixed-width font
+like this to separate it from ordinary text. Sometimes boldface is used to highlight
+code that has changed from previous steps in the chapter, such as when a new feature
+adds to an existing line of code.
+In many cases, the original source code has been reformatted; we’ve added line
+breaks and reworked indentation to accommodate the available page space in the
+book. In rare cases, even this was not enough, and listings include line-continuation
+markers (➥). Additionally, comments in the source code have often been removed
+from the listings when the code is described in the text. Code annotations accompany
+many of the listings, highlighting important concepts.
+Book forum
+Purchase of Google Cloud Platform in Action includes free access to a private web
+forum run by Manning Publications where you can make comments about the book,
+ask technical questions, and receive help from the author and from other users. To
+access the forum, go to https://forums.manning.com/forums/google-cloud-platformin-
+action. You can also learn more about Manning’s forums and the rules of conduct
+at https://forums.manning.com/forums/about.
+Manning’s commitment to our readers is to provide a venue where a meaningful
+dialogue between individual readers and between readers and the author can take
+place. It is not a commitment to any specific amount of participation on the part of
+the author, whose contribution to the forum remains voluntary (and unpaid). We suggest
+you try asking the author challenging questions lest his interest stray! The forum
+and the archives of previous discussions will be accessible from the publisher’s website
+as long as the book is in print.
+About the author
+JJ Geewax received his Bachelor of Science in Engineering in Computer Science from
+the University of Pennsylvania in 2008. While an undergrad at UPenn he joined Invite
+Media, a platform that enables customers to buy online ads in real time. In 2010 Invite
+Media was acquired by Google and, as their largest internal cloud customer, became
+the first large user of Google Cloud Platform. Since then, JJ has worked as a Senior
+Staff Software Engineer at Google, currently specializing in API design, specifically for
+Google Cloud Platform.
+Licensed to HYUNGIL KIM <trentkim@live.com>
+xxvii
+about the cover illustration
+The figure on the cover of Google Cloud Platform in Action is captioned, “Barbaresque
+Enveloppe Iana son Manteaul.” The illustration is taken from a collection of
+dress costumes from various countries by Jacques Grasset de Saint-Sauveur (1757–
+1810), titled Costumes de différents pays, published in France in 1797. Each illustration is
+finely drawn and colored by hand. The rich variety of Grasset de Saint-Sauveur’s collection
+reminds us vividly of how culturally apart the world’s towns and regions were just
+200 years ago. Isolated from each other, people spoke different dialects and languages.
+In the streets or in the countryside, it was easy to identify where they lived and
+what their trade or station in life was just by their dress.
+The way we dress has changed since then, and the diversity by region, so rich at the
+time, has faded away. It is now hard to tell apart the inhabitants of different continents,
+let alone different towns, regions, or countries. Perhaps we have traded cultural
+diversity for a more varied personal life—certainly for a more varied and fast-paced
+technological life.
+At a time when it is hard to tell one computer book from another, Manning celebrates
+the inventiveness and initiative of the computer business with book covers
+based on the rich diversity of regional life of two centuries ago, brought back to life by
+Grasset de Saint-Sauveur’s pictures.
+Licensed to HYUNGIL KIM <trentkim@live.com>
+Licensed to HYUNGIL KIM <trentkim@live.com>
+Part 1
+Getting started
+This part of the book will help set the stage for the rest of our exploration of
+Google Cloud Platform.
+In chapter 1 we’ll look at what “cloud” actually means and some of the principles
+that you should expect to bump into when using cloud services. Next, in
+chapter 2, you’ll take Google Cloud Platform for a test drive by setting up your
+own Word Press instance using Google Compute Engine. Finally, in chapter 3,
+we’ll explore how cloud data centers work and how you should think about location
+in the amorphous world of the cloud.
+When you’re finished with this part of the book, you’ll be ready to dig much
+deeper into individual products and see how they all fit together to build bigger
+things.
+Licensed to HYUNGIL KIM <trentkim@live.com>
+Licensed to HYUNGIL KIM <trentkim@live.com>
+3
+What is “cloud”?
+The term “cloud” has been used in many different contexts and it has many different
+definitions, so it makes sense to define the term—at least for this book.
+Cloud is a collection of services that helps developers focus on their project rather than
+on the infrastructure that powers it.
+In more concrete terms, cloud services are things like Amazon Elastic Compute
+Cloud (EC2) or Google Compute Engine (GCE), which provide APIs to provision
+virtual servers, where customers pay per hour for the use of these servers.
+In many ways, cloud is the next layer of abstraction in computer infrastructure,
+where computing, storage, analytics, networking, and more are all pushed higher
+This chapter covers
+ Overview of “the cloud”
+ When and when not to use cloud hosting and
+what to expect
+ Explanation of cloud pricing principles
+ What it means to build an application for the
+cloud
+ A walk-through of Google Cloud Platform
+Licensed 
